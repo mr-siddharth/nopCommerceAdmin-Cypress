@@ -1,0 +1,5 @@
+{
+    "scripts": {
+      "cy:run": "npx cypress run --key 30511af3-431b-4181-b4a1-9fc30b5d41ba"
+    }
+  }
