@@ -1,5 +1,27 @@
 {
-    "scripts": {
-      "cy:run": "npx cypress run --key 30511af3-431b-4181-b4a1-9fc30b5d41ba"
-    }
-  }
+  "scripts": {
+    "cy:run": "npx cypress run --record --key 30511af3-431b-4181-b4a1-9fc30b5d41ba"
+  },
+  "name": "nopcommerceadmin-cypress",
+  "version": "1.0.0",
+  "description": "Cypress Test Automation for NopCommerce Admin ",
+  "main": "index.js",
+  "dependencies": {
+    "cypress": "^9.2.0",
+    "cypress-xpath": "^1.6.2",
+    "mochawesome-report-generator": "^6.0.1",
+    "mochawesome": "^7.0.1",
+    "mochawesome-merge": "^4.2.1"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mr-siddharth/nopCommerceAdmin-Cypress.git"
+  },
+  "author": "Siddharth Mathur",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mr-siddharth/nopCommerceAdmin-Cypress/issues"
+  },
+  "homepage": "https://github.com/mr-siddharth/nopCommerceAdmin-Cypress#readme"
+}
