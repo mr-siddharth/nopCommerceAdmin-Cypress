@@ -7,13 +7,14 @@
   "description": "Cypress Test Automation for NopCommerce Admin ",
   "main": "index.js",
   "dependencies": {
-    "cypress": "^9.2.0",
     "cypress-xpath": "^1.6.2",
-    "mochawesome-report-generator": "^6.0.1",
     "mochawesome": "^7.0.1",
-    "mochawesome-merge": "^4.2.1"
+    "mochawesome-merge": "^4.2.1",
+    "mochawesome-report-generator": "^6.0.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "cypress": "^13.6.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mr-siddharth/nopCommerceAdmin-Cypress.git"
