@@ -20,5 +20,6 @@ module.exports = defineConfig({
     },
     baseUrl: 'https://admin-demo.nopcommerce.com',
     specPattern: 'cypress/e2e/**/*.{js,jsx,ts,tsx}',
+    experimentalRunAllSpecs: true,
   },
 })

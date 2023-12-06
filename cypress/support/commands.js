@@ -24,12 +24,17 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-import { LoginPage } from "../integration/pageObjects/loginpage";
+import loginPage from "../e2e/pageObjects/loginpage";
 
 Cypress.Commands.add('login', () => {
-    cy.visit('/')
-    const lp = new LoginPage()
-    lp.login("admin@yourstore.com", "admin")
-    cy.title().should('contain', 'Dashboard')
-    cy.getCookie('.Nop.Authentication').should('exist').its('value').as('authCookie')
-})
+    cy.session('admin@yourstore.com', () => {
+        loginPage.visit();
+        loginPage.login("admin@yourstore.com", "admin");
+        loginPage.title.should('contain', 'Dashboard');
+        cy.getCookie('.Nop.Authentication').should('exist').its('value').as('authCookie');
+    },
+    {
+        validate() {},
+        cacheAcrossSpecs: true
+    })
+});

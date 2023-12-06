@@ -5,38 +5,31 @@ import {
     BaseElement
 } from "./baseelements"
 
-class TxtEmail extends BaseTxtElement{
-    locator = ['css', 'input#Email']
-}
-
-class TxtPassword extends BaseTxtElement{
-    locator = ['css', 'input#Password']
-}
-
-class LoginButton extends BaseButtonElement{
-    locator = ['css', 'button[type=submit]']
-}
-
-class ErrorMessage extends BaseElement{
-    locator = ['css', 'div.message-error']
-}
-
-export class LoginPage extends BasePage{
-    constructor(){
+class LoginPage extends BasePage{
+    constructor() {
         super()
-        this.txt_email = new TxtEmail()
-        this.txt_password = new TxtPassword()
-        this.loginbutton = new LoginButton()
-        this.error_message = new ErrorMessage()
+        this.txt_email = new BaseTxtElement('css', 'input#Email')
+        this.txt_password = new BaseTxtElement('css', 'input#Password')
+        this.loginbutton = new BaseButtonElement('css', 'button.login-button')
+        this.error_message = new BaseElement('css', 'div.message-error')
     }
 
-    login(email, password){
+    visit() {
+        cy.visit('/login')
+        return this
+    }
+
+    login(email, password) {
         this.txt_email.clear().type(email)
         this.txt_password.clear().type(password)
         this.loginbutton.click()
+        return this
     }
 
-    getErrorMessage(){
+    getErrorMessage() {
         return this.error_message.text
     }
 }
+
+const loginPage = new LoginPage();
+export default loginPage;

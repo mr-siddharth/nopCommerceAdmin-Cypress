@@ -1,67 +1,38 @@
 /// <reference types="cypress-xpath" />
+import '../../support/commands2'
 
 export class BaseElement{
+
+    constructor(strategy, locator) {
+        this.strategy = strategy;
+        this.locator = locator;
+    }
+
     click(force = false){
-        let [strategy, locator] = this.locator
-        if (strategy === 'xpath'){
-            return cy.xpath(locator).click({force: force})
-        }
-        else if (strategy === 'css'){
-            return cy.get(locator).click({force: force})
-        }  
+        return cy.getElement(this.strategy, this.locator).click({force: force})
     }
 
-    get text(){
-        let [strategy, locator] = this.locator
-        if (strategy === 'xpath'){
-            return cy.xpath(locator).invoke('text')
-        }
-        else if (strategy === 'css'){
-            return cy.get(locator).invoke('text')
-        }  
+    get text() {
+        return cy.getElement(this.strategy, this.locator).invoke('text')
     }
 
-    get(){
-        let [strategy, locator] = this.locator
-        if (strategy === 'xpath'){
-            return cy.xpath(locator)
-        }
-        else if (strategy === 'css'){
-            return cy.get(locator)
-        }  
+    get() {
+        return cy.getElement(this.strategy, this.locator) 
     }
 
 }
 
 export class BaseTxtElement extends BaseElement{
-    get text(){
-        let [strategy, locator] = this.locator
-        if (strategy === 'xpath'){
-            return cy.xpath(locator).invoke('attr', 'value')
-        }
-        else if (strategy === 'css'){
-            return cy.get(locator).invoke('attr', 'value')
-        }  
+    get text() {
+        return cy.getElement(this.strategy, this.locator).invoke('attr', 'value')
     }
 
-    type(str){
-        let [strategy, locator] = this.locator
-        if (strategy === 'xpath'){
-            return cy.xpath(locator).type(str)
-        }
-        else if (strategy === 'css'){
-            return cy.get(locator).type(str)
-        } 
+    type(str) {
+        return cy.getElement(this.strategy, this.locator).clear().type(str)
     }
 
-    clear(){
-        let [strategy, locator] = this.locator
-        if (strategy === 'xpath'){
-            return cy.xpath(locator).clear()
-        }
-        else if (strategy === 'css'){
-            return cy.get(locator).clear()
-        } 
+    clear() {
+        return cy.getElement(this.strategy, this.locator).clear()
     }
 }
 
@@ -71,48 +42,23 @@ export class BaseButtonElement extends BaseElement{
 
 export class BaseRadioElement extends BaseElement{
     check(force = false){
-        let [strategy, locator] = this.locator
-        if (strategy === 'xpath'){
-            return cy.xpath(locator).check({force: force})
-        }
-        else if (strategy === 'css'){
-            return cy.get(locator).check({force: force})
-        } 
+        return cy.getElement(this.strategy, this.locator).check({force: force})
     }
-
 }
 
 
 export class BaseCheckboxElement extends BaseElement{
     check(force = false){
-        let [strategy, locator] = this.locator
-        if (strategy === 'xpath'){
-            return cy.xpath(locator).check({force: force})
-        }
-        else if (strategy === 'css'){
-            return cy.get(locator).check({force: force})
-        } 
+        return cy.getElement(this.strategy, this.locator).check({force: force})
     }
 
     uncheck(force = false){
-        let [strategy, locator] = this.locator
-        if (strategy === 'xpath'){
-            return cy.xpath(locator).uncheck({force: force})
-        }
-        else if (strategy === 'css'){
-            return cy.get(locator).uncheck({force: force})
-        } 
+        return cy.getElement(this.strategy, this.locator).uncheck({force: force})
     }
 }
 
 export class BaseDropdownElement extends BaseElement{
     select(value, force = false){
-        let [strategy, locator] = this.locator
-        if (strategy === 'xpath'){
-            return cy.xpath(locator).select(value, {force: force})
-        }
-        else if (strategy === 'css'){
-            return cy.get(locator).select(value, {force: force})
-        }  
+        return cy.getElement(this.strategy, this.locator).select(value, {force: force}) 
     }
 }

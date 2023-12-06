@@ -1,77 +1,65 @@
 /// <reference types="cypress-xpath" />
 
-import { LoginPage } from "../pageObjects/loginpage";
-import { AddCustomerPage } from "../pageObjects/addcustomerpage";
-import { LeftPaneMenu } from "../pageObjects/leftpanemenu";
-import { CustomersPage } from "../pageObjects/customerspage";
+import addCustomerPage from "../pageObjects/addcustomerpage";
+import leftPaneMenu from "../pageObjects/leftpanemenu";
+import customersPage from "../pageObjects/customerspage";
 import { getRandomString } from "../utils/lib";
 
 
 describe("Add New Customer Tests", () => {
-    before(function() {
-        cy.login()
-    })
-
     beforeEach(function() {
-        cy.setCookie('.Nop.Authentication', this.authCookie)
+        cy.login()
     })
 
     it("Verifies that a new customer can be added with details entered in all the available fields.", () => {
         cy.visit('/')
 
-        const lpm = new LeftPaneMenu()
-        lpm.customersSection.click()
-        lpm.customersLink.click()
+        leftPaneMenu.customersSection.click()
+        leftPaneMenu.customersLink.click()
 
-        const cp = new CustomersPage()
-        cp.btnAddNew.click(true)
+        customersPage.btnAddNew.click(true)
 
-        const addCustPage = new AddCustomerPage()
-        addCustPage.email.type(getRandomString() + '@gmail.com')
-        addCustPage.password.type("password123")
-        addCustPage.firstName.type("Aman")
-        addCustPage.lastName.type("Sharma")
-        addCustPage.male.check()
-        addCustPage.dob.type("9/3/1985")
-        addCustPage.companyName.type("SuperSaber Inc.")
-        addCustPage.taxExempt.check()
-        addCustPage.newsLetter.selectStore("Your store name")
-        addCustPage.customerRoles.selectRole('Registered')
-        addCustPage.customerRoles.selectRole("Forum Moderators")
-        addCustPage.vendorManager.select("Vendor 2")
-        addCustPage.adminComment.type("Testing 1 2 3")
-        addCustPage.saveBtn.click()
-        addCustPage.getAlertMessage().should('eq', "The new customer has been added successfully.")
+        addCustomerPage.email.type(getRandomString() + '@gmail.com')
+        addCustomerPage.password.type("password123")
+        addCustomerPage.firstName.type("Aman")
+        addCustomerPage.lastName.type("Sharma")
+        addCustomerPage.male.check()
+        addCustomerPage.dob.type("9/3/1985")
+        addCustomerPage.companyName.type("SuperSaber Inc.")
+        addCustomerPage.taxExempt.check()
+        addCustomerPage.newsLetter.selectStore("Your store name")
+        addCustomerPage.customerRoles.selectRole('Registered')
+        addCustomerPage.customerRoles.selectRole("Forum Moderators")
+        addCustomerPage.vendorManager.select("Vendor 2")
+        addCustomerPage.adminComment.type("Testing 1 2 3")
+        addCustomerPage.saveBtn.click()
+        addCustomerPage.getAlertMessage().should('eq', "The new customer has been added successfully.")
     })
 
     it("Verifies that an appropriate alert message is shown when a user tries to assign roles, 'Registered' and 'Guests' at the same time to a customer.", () => {
-        cy.visit('/Admin/Customer/Create')
-        const addCustPage = new AddCustomerPage()
-        addCustPage.email.type(getRandomString() + '@gmail.com')
-        addCustPage.customerRoles.selectRole("Registered")
-        addCustPage.customerRoles.selectRole("Guests")
-        addCustPage.saveBtn.click()
-        addCustPage.getAlertMessage().should('eq', "The customer cannot be in both 'Guests' and 'Registered' customer roles")
+        addCustomerPage.visit()
+        addCustomerPage.email.type(getRandomString() + '@gmail.com')
+        addCustomerPage.customerRoles.selectRole("Registered")
+        addCustomerPage.customerRoles.selectRole("Guests")
+        addCustomerPage.saveBtn.click()
+        addCustomerPage.getAlertMessage().should('eq', "The customer cannot be in both 'Guests' and 'Registered' customer roles")
         
     })
 
     it("Verifies that a 'Registered' customer cannot be added without an email address", () => {
-        cy.visit('/Admin/Customer/Create')
-        const addCustPage = new AddCustomerPage()
-        addCustPage.password.type(getRandomString())
-        addCustPage.customerRoles.selectRole("Registered")
-        addCustPage.saveBtn.click()
-        addCustPage.getAlertMessage().should('eq', "Valid Email is required for customer to be in 'Registered' role")
+        addCustomerPage.visit()
+        addCustomerPage.password.type(getRandomString())
+        addCustomerPage.customerRoles.selectRole("Registered")
+        addCustomerPage.saveBtn.click()
+        addCustomerPage.getAlertMessage().should('eq', "Valid Email is required for customer to be in 'Registered' role")
         
     })
     
     it("Verifies that a 'Registered' customer can be added with just an email address", () => {
-        cy.visit('/Admin/Customer/Create')
-        const addCustPage = new AddCustomerPage()
-        addCustPage.email.type(getRandomString() + '@gmail.com')
-        addCustPage.customerRoles.selectRole("Registered")
-        addCustPage.saveBtn.click()
-        addCustPage.getAlertMessage().should('eq', "The new customer has been added successfully.")
-        
+        addCustomerPage.visit()
+        addCustomerPage.email.type(getRandomString() + '@gmail.com')
+        addCustomerPage.customerRoles.selectRole("Registered")
+        addCustomerPage.saveBtn.click()
+        addCustomerPage.getAlertMessage().should('eq', "The new customer has been added successfully.")
     })
 })

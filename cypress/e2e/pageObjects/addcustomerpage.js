@@ -9,91 +9,26 @@ import {
 
 import { BasePage } from "./basepage"
 
-class TxtEmail extends BaseTxtElement{
-    locator = ['css', 'input#Email']
-}
-
-class TxtPassword extends BaseTxtElement{
-    locator = ['css', 'input#Password']
-}
-
-class TxtFirstName extends BaseTxtElement{
-    locator = ['css', 'input#FirstName']
-}
-
-class TxtLastName extends BaseTxtElement{
-    locator = ['css', 'input#LastName']
-}
-
-class RadMale extends BaseRadioElement{
-    locator = ['css', 'input#Gender_Male']
-}
-
-class RadFemale extends BaseRadioElement{
-    locator = ['css', 'input#Gender_Female']
-}
-
-class TxtDOB extends BaseTxtElement{
-    locator = ['css', 'input#DateOfBirth']
-}
-
-class TxtCompanyName extends BaseTxtElement{
-    locator = ['css', 'input#Company']
-}
-
-class ChkTaxExempt extends BaseCheckboxElement{
-    locator = ['css', 'input#IsTaxExempt']
-}
-
 class SelectNewsLetter extends BaseElement{
-    locator = ['css', 'ul#SelectedNewsletterSubscriptionStoreIds_taglist + input']
 
     selectStore(storeName){
         this.click()
         cy
-        .xpath(`//ul[@id='SelectedNewsletterSubscriptionStoreIds_listbox']/li[text()='${storeName}']`)
+        .getElement('xpath', `//ul[@id='SelectedNewsletterSubscriptionStoreIds_listbox']/li[text()='${storeName}']`)
         .click({force: true})
     }
 
     deselectStore(storeName){
         cy
-        .xpath(`//ul[@id='SelectedNewsletterSubscriptionStoreIds_taglist']/li/span[text()='${storeName}']/following-sibling::span`)
+        .getElement('xpath', `//ul[@id='SelectedNewsletterSubscriptionStoreIds_taglist']/li/span[text()='${storeName}']/following-sibling::span`)
         .click({force: true})
     }
-
-    // getAllAvailableOptions(){
-    //     let options = []
-    //     cy
-    //     .xpath("//ul[@id='SelectedNewsletterSubscriptionStoreIds_listbox']/li")
-    //     .then(elements => {
-    //         for (let element of elements){
-    //             cy.wrap(element).invoke('text').then((text) => {
-    //                 options.push(text)
-    //             })
-    //         }
-    //     })
-    //     return options
-    // }
 }
 
-class SelectCustomerRoles extends BaseElement{
-    locator = ['css', 'ul#SelectedCustomerRoleIds_taglist + input']
-
-    // getSelectedRoles(){
-    //     cy.get('body').find("ul[id='SelectedCustomerRoleIds_taglist'] > li")
-    //     .then(lis => {
-    //         return ['Registered']
-    //         // for (let li of lis){
-    //         //     cy.wrap(roles).invoke('push', cy.wrap(li).find('span').eq(0).invoke('text'))
-    //         // }
-    //         // cy.log("STAAAAAART")
-    //         // cy.log(roles)
-    //         return roles
-    //     })
-    // }
+class SelectCustomerRoles extends BaseElement {
 
     selectRole(role){
-        cy.get('body').find("ul[id='SelectedCustomerRoleIds_taglist'] > li")
+        cy.getElement('css', "body ul[id='SelectedCustomerRoleIds_taglist'] > li")
         .then(lis => {
             for (let li of lis){
                 cy.wrap(li).find('span').eq(0).invoke('text').then(text => {
@@ -106,102 +41,60 @@ class SelectCustomerRoles extends BaseElement{
         })
         this.click()
         cy
-        .xpath(`//ul[@id='SelectedCustomerRoleIds_listbox']/li[text()='${role}']`)
+        .getElement('xpath', `//ul[@id='SelectedCustomerRoleIds_listbox']/li[text()='${role}']`)
         .click({force: true})
     }
 
 
     deselectRole(role){
         cy
-        .xpath(`//ul[@id='SelectedCustomerRoleIds_taglist']/li/span[text()='${role}']/following-sibling::span`)
+        .getElement('xpath', `//ul[@id='SelectedCustomerRoleIds_taglist']/li/span[text()='${role}']/following-sibling::span`)
         .click() 
     }
 
     deselectAll(){
-        cy.get('body').find("ul[id='SelectedCustomerRoleIds_taglist'] > li")
+        cy.getElement('xpath', "body ul[id='SelectedCustomerRoleIds_taglist'] > li")
         .then(lis => {
             for (let li of lis){
                 cy.wrap(li)
-                .xpath("span[text()]/following-sibling::span")
+                .getElement('xpath', "span[text()]/following-sibling::span")
                 .click()
                 }
             })
     }
-
-    // getAllAvailableRoles(){
-    //     let roles = []
-    //     cy
-    //     .xpath("//ul[@id='SelectedCustomerRoleIds_listbox']/li")
-    //     .then(elements => {
-    //         for (let element of elements){
-    //             cy.wrap(element).invoke('text').then((text) => {
-    //                 roles.push(text)
-    //             })
-    //         }
-    //     })
-    //     return roles
-    // }
 }
 
-class LstVendorManager extends BaseDropdownElement{
-    locator = ['css', 'select#VendorId']
-}
-
-
-class ChkActive extends BaseCheckboxElement{
-    locator = ['css', 'input#Active']
-}
-
-class TxtAdminComment extends BaseTxtElement{
-    locator = ['css', 'textarea#AdminComment']
-}
-
-class BtnSave extends BaseButtonElement{
-    locator = ['css', "button[name='save']"]
-}
-
-class BtnSaveAndEdit extends BaseButtonElement{
-    locator = ['css', "button[name='save-continue']"]
-}
-
-export class AddCustomerPage extends BasePage{
-    constructor(){
+class AddCustomerPage extends BasePage{
+    constructor() {
         super()
-        this.email = new TxtEmail()
-        this.password = new TxtPassword()
-        this.firstName = new TxtFirstName()
-        this.lastName = new TxtLastName()
-        this.male = new RadMale()
-        this.female = new RadFemale()
-        this.dob = new TxtDOB()
-        this.taxExempt = new ChkTaxExempt()
-        this.companyName = new TxtCompanyName()
-        this.newsLetter = new SelectNewsLetter()
-        this.customerRoles = new SelectCustomerRoles()
-        this.vendorManager = new LstVendorManager()
-        this.active = new ChkActive()
-        this.adminComment = new TxtAdminComment()
-        this.saveBtn = new BtnSave()
-        this.saveAndEditBtn = new BtnSaveAndEdit()
+        this.email = new BaseTxtElement('css', 'input#Email')
+        this.password = new BaseTxtElement('css', 'input#Password')
+        this.firstName = new BaseTxtElement('css', 'input#FirstName')
+        this.lastName = new BaseTxtElement('css', 'input#LastName')
+        this.male = new BaseRadioElement('css', 'input#Gender_Male')
+        this.female = new BaseRadioElement('css', 'input#Gender_Female')
+        this.dob = new BaseTxtElement('css', 'input#DateOfBirth')
+        this.taxExempt = new BaseCheckboxElement('css', 'input#IsTaxExempt')
+        this.companyName = new BaseTxtElement('css', 'input#Company')
+        this.newsLetter = new SelectNewsLetter('css', 'ul#SelectedNewsletterSubscriptionStoreIds_taglist + input')
+        this.customerRoles = new SelectCustomerRoles('css', 'ul#SelectedCustomerRoleIds_taglist + input')
+        this.vendorManager = new BaseDropdownElement('css', 'select#VendorId')
+        this.active = new BaseCheckboxElement('css', 'input#Active')
+        this.adminComment = new BaseTxtElement('css', 'textarea#AdminComment')
+        this.saveBtn = new BaseButtonElement('css', "button[name='save']")
+        this.saveAndEditBtn = new BaseButtonElement('css', "button[name='save-continue']")
     }
 
-    // getErrorMessages(){
-    //     let messages = []
-    //     cy
-    //     .get("div.validation-summary-errors > ul > li")
-    //     .then(elements => {
-    //         for (let element of elements){
-    //             cy.wrap(element).invoke('text').then((text) => {
-    //                 messages.push(text)
-    //             })
-    //         }
-    //     })
-    //     return messages
-    // }
-
     getAlertMessage(){
-        return cy.get('div.alert').invoke('text').invoke('slice', 2).invoke('trim')
+        return cy.getElement('css', 'div.alert').invoke('text').invoke('slice', 2).invoke('trim')
+    }
+
+    visit() {
+        cy.visit('/Admin/Customer/Create');
+        return this;
     }
     
 }
 
+const addCustomerPage = new AddCustomerPage();
+export default addCustomerPage;
